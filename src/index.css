@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-black text-green-400 font-mono;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1a2b1e;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #00c951;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
+}
