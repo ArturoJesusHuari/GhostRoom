@@ -3,7 +3,7 @@ import { createRoom, getRooms } from "../../utils/room";
 import { useUser } from "../../context/userContext";
 import { toast } from "react-hot-toast";
 import ListRooms from "../components/Rooms/ListRooms";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Info } from "lucide-react";
 
 export default function Rooms() {
   const { user } = useUser();
@@ -52,11 +52,8 @@ export default function Rooms() {
       toast.error("Room name is required.");
       return;
     }
-    if (
-      !newRoom.messages_duration_seconds ||
-      newRoom.messages_duration_seconds <= 0
-    ) {
-      toast.error("Message duration must be greater than 0.");
+    if (duration.hours == 0 && duration.minutes == 0 && duration.seconds == 0) {
+      toast.error("The duration of the message must be longer");
       return;
     }
 
@@ -76,7 +73,7 @@ export default function Rooms() {
         redirection_address: "",
         password: "",
       });
-      setDuration({hours:0,minutes:0,seconds:0})
+      setDuration({ hours: 0, minutes: 0, seconds: 0 });
       setIsModalOpenToCreateRoom(false);
     } catch (error) {
       toast.error("Failed to create room.");
@@ -130,7 +127,7 @@ export default function Rooms() {
                     min="0"
                     value={duration.hours}
                     onChange={handleDurationChange}
-                    className="bg-black border border-green-400 p-2 text-green-300 focus:outline-none rounded"
+                    className="no-spinner bg-black border border-green-400 p-2 text-green-300 focus:outline-none rounded"
                   />
                 </div>
                 <div className="flex flex-col">
@@ -141,7 +138,7 @@ export default function Rooms() {
                     min="0"
                     value={duration.minutes}
                     onChange={handleDurationChange}
-                    className="bg-black border border-green-400 p-2 text-green-300 focus:outline-none rounded"
+                    className="no-spinner bg-black border border-green-400 p-2 text-green-300 focus:outline-none rounded"
                   />
                 </div>
                 <div className="flex flex-col">
@@ -152,9 +149,17 @@ export default function Rooms() {
                     min="0"
                     value={duration.seconds}
                     onChange={handleDurationChange}
-                    className="bg-black border border-green-400 p-2 text-green-300 focus:outline-none rounded"
+                    className="no-spinner bg-black border border-green-400 p-2 text-green-300 focus:outline-none rounded"
                   />
                 </div>
+              </div>
+
+              <div className="flex items-center gap-3 border border-green-600 rounded-lg p-4">
+                <Info className="text-green-300 " size={40} />
+                <p className="text-xs text-green-200">
+                  The countdown starts when the message is sent — not when it's
+                  read. Messages will be deleted even if unseen.
+                </p>
               </div>
 
               <button

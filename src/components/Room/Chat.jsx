@@ -26,9 +26,8 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex flex-col h-[80vh] border border-green-500 rounded-lg p-4 bg-black text-green-300">
+    <div className="flex flex-col h-[70vh] border border-green-500 rounded-lg p-4 bg-black text-green-300">
       <Messages />
-
       <div className="flex gap-2">
         <input
           type="text"

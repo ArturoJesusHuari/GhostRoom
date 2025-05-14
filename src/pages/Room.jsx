@@ -16,7 +16,12 @@ export default function Room() {
             {loading ? (
                 <p className="text-center animate-pulse">Loading room...</p>
             ) : room ? (
+                <div className="flex flex-col space-y-4">
+                    <div className="h-[10vh] border border-green-500 rounded-lg p-4 bg-black text-green-300">
+                        <span className="text-md">{room.name}</span>
+                    </div>
                 <Chat />
+                </div>
             ) : (
                 <p className="text-center">Room not found.</p>
             )}

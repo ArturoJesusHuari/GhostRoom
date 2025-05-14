@@ -64,7 +64,7 @@ export default function ListRooms({ rooms, setRooms }) {
                 <p className="text-sm text-green-400 mt-1">
                   Message Duration:{" "}
                   <span className="font-semibold">
-                    {room.messages_duration_seconds} sec
+                  {Math.floor(room.messages_duration_seconds / 3600)} h {Math.floor((room.messages_duration_seconds % 3600) / 60)} m {room.messages_duration_seconds % 60} s
                   </span>
                 </p>
                 {room.password && (

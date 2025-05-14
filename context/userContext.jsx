@@ -5,7 +5,8 @@ import {
   useState,
   useCallback,
 } from "react";
-import { getUser, createUser, deleteUser } from "../utils/user";
+import { useNavigate } from "react-router-dom";
+import { getUser, createUser } from "../utils/user";
 
 // Creación del contexto
 const UserContext = createContext();
@@ -20,13 +21,13 @@ const getStoredUserId = () => localStorage.getItem("userId") ?? null;
 const storeUserId = (id) => localStorage.setItem("userId", id);
 
 // Función auxiliar para eliminar el usuario almacenado
-const removeStoredUserId = async (id) => {
-  await deleteUser(id);
+const removeStoredUserId = () => {
   localStorage.removeItem("userId");
 };
 
 // Proveedor del contexto
 export const UserProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     id: null,
     username: null,
@@ -37,11 +38,9 @@ export const UserProvider = ({ children }) => {
   const fetchUser = useCallback(async () => {
     try {
       const storedUserId = getStoredUserId();
-      console.log(storedUserId)
       if (storedUserId) {
         const { data, error } = await getUser(storedUserId);
         if (error) {
-          console.error("Error al obtener el usuario:", error);
           localStorage.removeItem("userId");
           return;
         }
@@ -70,9 +69,7 @@ export const UserProvider = ({ children }) => {
         }
 
         if (data?.id) {
-          console.log("Usuario creado:", data);
           storeUserId(data.id);
-          console.log("ID guardado en localStorage:", getStoredUserId());
           setUser({
             id: data.id,
             username: data.username,
@@ -88,13 +85,17 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
-    fetchUser();
-    setLoading(false);
-  }, [fetchUser]);
+    const initialize = async () => {
+      setLoading(true);
+      await fetchUser(); 
+      setLoading(false);
+    };
+
+    initialize();
+  }, [fetchUser, navigate]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, loading }}>
+    <UserContext.Provider value={{ user, setUser, fetchUser ,loading }}>
       {children}
     </UserContext.Provider>
   );

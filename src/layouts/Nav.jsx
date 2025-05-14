@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import CountdownTimer from "../components/CountdownTimer";
 import { X, Menu } from "lucide-react";
 
 const Nav = () => {
@@ -26,8 +25,8 @@ const Nav = () => {
           <Link to="/rooms" className="hover:text-green-300 transition" onClick={toggleMenu}>
             Rooms
           </Link>
-          <Link to="/settings" className="hover:text-green-300 transition" onClick={toggleMenu}>
-            Settings
+          <Link to="/profile" className="hover:text-green-300 transition" onClick={toggleMenu}>
+            Profile
           </Link>
         </div>
       )}
@@ -37,8 +36,8 @@ const Nav = () => {
         <Link to="/rooms" className="hover:text-green-300 transition">
           Rooms
         </Link>
-        <Link to="/settings" className="hover:text-green-300 transition">
-          Settings
+        <Link to="/profile" className="hover:text-green-300 transition">
+          Profile
         </Link>
       </div>
       {/*

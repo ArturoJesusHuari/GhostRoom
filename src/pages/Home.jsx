@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -41,9 +42,42 @@ const BackgroundMatrix = () => {
   );
 };
 
+const descriptions = [
+  "A private chat system where security comes first.",
+  "Encrypted, anonymous, and always under your control.",
+  "No logs. No traces. Just pure privacy.",
+  "Your secrets are safe — even from us.",
+  "GhostRoom: Because privacy is power.",
+];
+
+const RotatingDescription = () => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % descriptions.length);
+    }, 4000); // cambia cada 4 segundos
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.p
+      key={index} // reinicia animación al cambiar
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}
+      className="mt-4 text-green-300"
+    >
+      {descriptions[index]}
+    </motion.p>
+  );
+};
+
 function Home() {
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen p-6">
+    <div className="relative flex flex-col items-center justify-center min-h-screen p-6" transition-style="in:wipe:cinematic">
       <BackgroundMatrix />
 
       <div className="border border-green-400 p-8 w-full max-w-3xl bg-black bg-opacity-80">
@@ -58,31 +92,23 @@ function Home() {
 
         <motion.img
           src="./ghost.png"
-          alt="Fantasma de GhostRoom"
+          alt="GhostRoom's Ghost"
           className="w-16 h-16 mx-auto opacity-80 drop-shadow-[0_0_2px_#00ff00]"
           animate={{ y: [0, -5, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
         </div>
 
-        {/* Descripción con efecto de parpadeo */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-          className="mt-4 text-green-300"
-        >
-          Un sistema de chat privado donde la seguridad es lo primero.
-        </motion.p>
+        <RotatingDescription />
 
-        {/* Botón con estilo "hacker" */}
+        {/* "Hacker" style button */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="mt-8 px-6 py-3 border border-green-400 text-green-400 bg-black font-mono hover:bg-green-400 hover:text-black transition-all"
         >
-          <Link to="/settings" className="flex items-center gap-2">
-            Iniciar Sesión <ArrowRight className="w-5 h-5" />
+          <Link to="/profile" className="flex items-center gap-2">
+            Log In <ArrowRight className="w-5 h-5" />
           </Link>
         </motion.button>
       </div>

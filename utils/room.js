@@ -4,7 +4,7 @@ import { addUserInRoom } from "./room_user";
 export const getRooms = async (userId) => {
   const { data, error } = await supabase
     .from("room_user")
-    .select("rooms(*)") // Relación con la tabla 'rooms'
+    .select("rooms(*)") 
     .eq("id_user", userId);
 
   if (error) throw new Error(error.message);
@@ -49,7 +49,6 @@ export const addOwnerToUserRoom = async (userId) => {
     .limit(1)
     .single();
   if (error) throw new Error(error.message);
-  console.log(data)
   await addUserInRoom(
     data.id,
     userId
